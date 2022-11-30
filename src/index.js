@@ -36,11 +36,14 @@ const shouldMock = (...args) => {
 const logMockResponse = (url, fn) => (...args) => {
   const output = fn(...args);
   const handle = data => {
-    console.table({
-      url,
-      body: JSON.stringify(args),
-      'response(MOCK)': JSON.stringify(data),
-    });
+    try {
+      console.table({
+        url,
+        parameters: JSON.stringify(args),
+        'response(MOCK)': JSON.stringify(data),
+      });
+    } catch(e) {
+    }
     return data;
   };
   if (isThenable(output)) {
