@@ -1,6 +1,6 @@
 {
   "name": "bmock",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "The front-end is separated from the back-end, freely simulating dynamic data",
   "main": "lib/index.js",
   "scripts": {
@@ -11,7 +11,12 @@
     "type": "git",
     "url": "git+https://github.com/blankann/mock.git"
   },
-  "keywords": ["mock", "bmock", "backend", "js"],
+  "keywords": [
+    "mock",
+    "bmock",
+    "backend",
+    "js"
+  ],
   "author": "xuyuranxw@gmail.com",
   "license": "ISC",
   "bugs": {
