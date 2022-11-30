@@ -22,7 +22,7 @@ const mockData = {
     count++;
     return delay({
       status: [0, -1][count % 2],
-      msg: '模拟错误提示，再点击一次登录按钮，可登录成功',
+      msg: 'error, try again',
       data: {
         token: Math.random().toString(36).slice(2),
       },
@@ -52,31 +52,53 @@ const mockData = {
   },
 };
 
-const axiosXXX = mock(axios, {
-  data: mockdata, // require
-  // data: () => mockdata,
-  // data: () => Promise.resolve(mockdata),
-  isMock: (param) => true, // mock the single request, param: request body
-  // isMock : false,
+// usage 1
+// default
+const axios1 = mock(axios, {
+  data: mockData, //required
+});
+axios1({ url: 'xxx'});
+
+// usage 2
+//custom
+const axios2 = mock(axios, {
+  data: mockdata, // required
+  // data: () => mockData, // sync mock data
+  // data: () => Promise.resolve(mockData), // async mock data
+  flag: '__MOCK__', // https://xx.com/xx/xxxx?__MOCK__ open the mock mode
+  isMock : true, // mock all request, same effect as "flag", with higher than it
+  // isMock: ({ __mock } = {}) => __mock, // mock the single request, param: the parameters of proxy request
   isProd: false, // close the mock when in production mode
   // isProd: () => true,
-  flag: '__MOCK__', // https://xx.com/xx/xxxx?__MOCK__ open the mock mode
-  key: 'url', // axios({method: 'post', url: '/user/123' })
-  // key: 'xxx', // asyncFn({method: 'get', xxx: '/user/123'})
-  setPath: (param) => '', // mockData key, param: request body
+  key: 'url', // mockData key, axios({method: 'post', url: '/user/123' })
+  // key: 'path', // asyncFn({method: 'get', path: '/user/123'})
+  setPath: ({ url } = {}) => url, // mockData key, param: the parameters of proxy request. same effect as "key", with higher than it
 });
 
+axios2({ url, __mock: true });
 
-// const axiosGet = mock(axios.get, { data: mockData })
-// const axiosPost = mock(axios.post, { data: mockData })
+// usage 3
+// mock axios get|post
+const axiosGet = mock(axios.get, { data: mockData });
+const axiosPost = mock(axios.post, { data: mockData });
+axiosGet('/user/1', {});
 
-// const asyncFn = (param) => Promise.resolve(xxx);
-// const mockAsyncFn = mock(asyncFn);
-// mockAsyncFn(param).then(xxx => {});
+// usage 4
+// async function
+const asyncFn = ({ path, __isMock, data } = {}) => Promise.resolve({});
 
-// const fn = (param) => ({xxxx});
-// const mockFn = mock(fn);
-// mockFn(param);
+const mockAsyncFn1 = mock(asyncFn, { key: 'path', data: mockData, isMock: true });
+mockAsyncFn1({ path: '/user/1', data: {} }).then((data) => {}); // mock all
+
+const mockAsyncFn2 = mock(asyncFn, { data: mockData, setPath:({ path }) => path, /*or key: 'path'*/ isMock: ({ __isMock }) => __isMock);
+mockAsyncFn2({ path: '/user/1', __isMock: true, data: {} });  // only mock path '/user/1'
+mockAsyncFn2({ path: '/user/2', __isMock: false, data: {} });
+
+// usage 5
+// sync function
+const fn = (param) => ({});
+const mockFn = mock(fn, { data: mockData });
+mockFn(param);
 
 ```
 
