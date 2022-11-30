@@ -1,7 +1,7 @@
 {
   "name": "bmock",
   "version": "1.1.3",
-  "description": "",
+  "description": "The front-end is separated from the back-end, freely simulating dynamic data",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -11,8 +11,8 @@
     "type": "git",
     "url": "git+https://github.com/blankann/mock.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": ["mock", "bmock", "backend", "js"],
+  "author": "xuyuranxw@gmail.com",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/blankann/mock/issues"

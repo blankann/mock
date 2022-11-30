@@ -1,5 +1,4 @@
 ### usage
-### example
 ```javascript
 import axios from 'axios';
 import { mock } from 'bmock';
