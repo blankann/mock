@@ -7,23 +7,26 @@ const isObject = (x) => Object.prototype.toString.call(x) === '[object Object]';
 const isThenable = x => x && isFunc(x.then);
 
 const getDefaultMock = (flag) => {
-  if (window && window.location) {
-    return new RegExp(`[?&]${flag}`).test(window.location.search);
-  };
+  try {
+    if (window && window.location) {
+      return new RegExp(`[?&]${flag}`).test(window.location.search);
+    };
+  } catch(e) {
+  }
   return false;
 };
 
 const shouldMock = (...args) => {
   const { isProd, isMock, flag } = config;
-  // 生产环境强制关闭mock
+  // force close the mock in production mode
   if (isProd) {
     return false;
   }
-  // 自定义mock
+  // customize mock
   if (isBool(isMock)) {
     return isMock;
   }
-  // 支持单个请求，用户自定义mock
+  // mock the single request
   if (isFunc(isMock)) {
     return isMock(...args);
   }
@@ -34,9 +37,9 @@ const logMockResponse = (url, fn) => (...args) => {
   const output = fn(...args);
   const handle = data => {
     console.table({
-      '请求地址': url,
-      '请求参数': JSON.stringify(args),
-      '返回数据(MOCK)': JSON.stringify(data),
+      url,
+      body: JSON.stringify(args),
+      'response(MOCK)': JSON.stringify(data),
     });
     return data;
   };
