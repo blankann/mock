@@ -4,6 +4,8 @@
 *After the front-end development is completed and deployed to the environment, let the back-end development compare the mock data to play by himself*
 #### 使用案例(Usage)
 ```javascript
+// axios 只是作为例子使用，并不依赖，可以是任何异步或者同步函数
+// axios is only used as an example and does not depend on it, it can be any asynchronous or synchronous function
 import axios from 'axios';
 import { mock } from 'bmock';
 // import mockdata from './xxx';
