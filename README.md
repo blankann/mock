@@ -1,5 +1,5 @@
-### 前后端分离，前端自由动态模拟后端返回数据
-### The front and back ends are separated, and the front end freely and dynamically simulates the data returned by the back end
+### 前后端分离，前端自由动态模拟后端返回数据, 前端开发完部署到环境，让后端开发对比mock数据自己玩去吧。
+### The front and back ends are separated, and the front end freely and dynamically simulates the data returned by the back end, After the front-end development is completed and deployed to the environment, let the back-end development compare the mock data to play by himself.
 #### 使用案例(Usage)
 ```javascript
 import axios from 'axios';
