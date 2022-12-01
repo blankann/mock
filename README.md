@@ -1,4 +1,6 @@
-### 使用案例(Usage)
+### 前后端分离，前端自由动态模拟后端返回数据
+### The front and back ends are separated, and the front end freely and dynamically simulates the data returned by the back end
+#### 使用案例(Usage)
 ```javascript
 import axios from 'axios';
 import { mock } from 'bmock';
