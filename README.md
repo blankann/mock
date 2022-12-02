@@ -15,6 +15,15 @@ const delay = (data, time = 500) => new Promise((resolve) => {
 });
 
 const mockData = {
+  '/api/user/1': {
+    status: 0,
+    data: {},
+  },
+  'api/user/2': () => {
+    return {
+      status: 0,
+    }
+  },
   '/api/verifyCode': () => {
     return delay({
       status: 0,
@@ -61,6 +70,10 @@ const mockData = {
 const axios1 = mock(axios, {
   data: mockData, //必需(required)
 });
+// or
+// the key of mockData must match /^(?:http[s]?:\/\/\S+?)?\/\S+$/ when using this way
+// /xx, https://xx.xx/xx, http://xx.xx/x ...
+const axios1 = mock(axios, mockData);
 axios1({ url: 'xxx'});
 
 // 自定义配置参数
@@ -69,14 +82,12 @@ const axios2 = mock(axios, {
 
   // 必需
   // 支持函数: data: () => mockData；支持异步thenable: data: () => Promise.resolve(mockData)
-
   // required
   // suport function: data: () => mockData; support async thenable function: data: () => Promise.resolve(mockData)
   data: mockdata,
 
   // 非必需，默认值：__MOCK__
   // 通过在url中添加__MOCK__参数，开启mock模式，当前url页面所发起的所有请求都使用mock数据（isProd为false且未配置isMock）
-
   // not required, default value: __MOCK__
   // By adding the __MOCK__ parameter to the url, the mock mode is enabled,
   // and all requests initiated by the current url page use mock data (isProd is false and isMock is not configured)
@@ -86,7 +97,6 @@ const axios2 = mock(axios, {
   // 非必需，默认值：false
   // 支持boolean或者函数，当传入boolean值时，控制所有请求是否使用mock数据，true： 使用，false：不使用
   // 当传入函数: isMock: ({ __mock } = {}) => __mock 时，针对单独请求进行mock
-
   // not required, default value: false
   // support boolean or function, when the boolean value is passed in, control whether to use mock data for all requests, true: use, false: not use
   // when passing in the function: isMock: ({ __mock } = {}) => __mock, it can be mocked for individual requests
@@ -99,7 +109,6 @@ const axios2 = mock(axios, {
   // 非必需，默认值：false
   // 支持函数方式:
   // isProd: () => true; 返回值为true时，不支持mock;返回值为false时，支持mock
-
   // not required, default value: false
   // the function method is supported:
   // isProd: () => true; when the return value is true, mocking is not supported; when the return value is false, mocking is supported
@@ -107,7 +116,6 @@ const axios2 = mock(axios, {
 
   // 非必需, 默认值为："url"
   // 通过该值去匹配mockData中的数据, 匹配失败，则不进行mock
-
   // not required, default value: "url"
   // which is used to match the data in mockData, If the match fails, mocking will not be performed.
 
@@ -119,7 +127,6 @@ const axios2 = mock(axios, {
   // 非必需
   // 与字段“key”作用一致，优先级高于字段“key”,
   // 该函数参数为被mock函数的参数
-
   // not required
   // It has the same function as the field "key", and has a higher priority than the field "key".
   // The function parameter is the parameter of the mocked function
