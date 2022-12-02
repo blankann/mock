@@ -76,7 +76,7 @@ let config = {
 };
 
 const mock = (fn, param) => {
-  isObject(param) && mock.config(param);
+  mock.config(param);
   return (...args) => {
     const { key, data, setPath } = config;
     if (shouldMock(...args)) {
@@ -100,14 +100,27 @@ const mock = (fn, param) => {
   }
 }
 
-mock.config = ({ isProd = config.isProd, data, ...tail } = {}) => {
-  config = {
-    ...config,
-    ...tail,
-  };
-  config.isProd = isFunc(isProd) ? isProd() : !!isProd;
-  if (data) {
-    config.data = handleLogMockResponse(data);
+mock.config = (param) => {
+  if (isFunc(param)) {
+    config.data = handleLogMockResponse(param);
+    return;
+  }
+  if (isObject(param)) {
+    const { isProd = config.isProd, isMock = config.isMock, setPath = config.setPath, data, ...tail } = param;
+    if (Object.keys(tail).every(key => isFunc(tail[key]))) {
+      config.data = handleLogMockResponse(param);
+      return;
+    }
+    config = {
+      ...config,
+      isMock,
+      setPath,
+      ...tail,
+    };
+    config.isProd = isFunc(isProd) ? isProd() : !!isProd;
+    if (data) {
+      config.data = handleLogMockResponse(data);
+    }
   }
 };
 
