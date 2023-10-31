@@ -1,6 +1,6 @@
 {
   "name": "bmock",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "The front-end is separated from the back-end, freely simulating dynamic data",
   "main": "lib/index.js",
   "scripts": {
